@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,112 +15,106 @@ namespace Upswing
 {
     public partial class UpswingApp : Form
     {
-        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\myApp\file.txt")
+        const string AppDirectory = "Upswing";
+        const string AppFilename = "records.json";
 
         private GeocodingEngine geocodingEngine;
+        private readonly string _appDir;
+        private readonly string _filePath;
+        private List<Record> _records = new List<Record>();
+
         public UpswingApp()
         {
             InitializeComponent();
             geocodingEngine = new GeocodingEngine();
+            _appDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $@"\{AppDirectory}";
+            _filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $@"\{AppDirectory}\{AppFilename}";
+
+            //set most requested at loading
+            LoadRecords();
+            SetTopRequested();
+        }
+
+        private void LoadRecords()
+        {
+            //create a directory 
+            Directory.CreateDirectory(_appDir);
+            if (!File.Exists(_filePath))
+                File.WriteAllText(_filePath, "");
+            //read the directory
+            var fileValue = File.ReadAllText(_filePath);
+            if (fileValue != "")
+                _records = JsonConvert.DeserializeObject<List<Record>>(fileValue);
+        }
+
+        private void SaveRecords()
+        {
+            //record request to Json
+            var text = JsonConvert.SerializeObject(_records);
+            File.WriteAllText(_filePath, text);
+        }
+
+        private void SetTopRequested()
+        {
+            //Display the most requested
+            var top = _records.OrderByDescending(r => r.Count).FirstOrDefault();
+            if (top != null)
+                label6.Text = top.Address;
+            else
+                label6.Text = "No most Requested";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-           string street = textBox1.Text;
-           string city = textBox2.Text;
-           string zip = textBox3.Text;
-           string state = textBox4.Text;
-
-            Last.Items.Add($"{street} {city} {zip} {state}");
-            
-
-
-            var url = geocodingEngine.GetStaticMapUrl($"{street} {city} {zip} {state}");
-            
-            webBrowser1.DocumentText = url;
             try
             {
-                //json
-                //linq : list
-                //File
-                //wpf
+                string street = textBox1.Text;
+                string city = textBox2.Text;
+                string zip = textBox3.Text;
+                string state = textBox4.Text;
+                string address = $"{street} {city} {zip} {state}";
+                Last.Items.Add($"{street} {city} {zip} {state}");
 
-                //transformer l'input en requête
+                var url = geocodingEngine.GetStaticMapUrl(address);
+                webBrowser1.DocumentText = url;
 
-                var valu = Properties.Settings.Default.LastRequest;
-                var elements = valu.Split(',').ToList();
-
-                //
-                elements.Add("new request");
-
-                List<string> requests = new List<string>();
-                var settingValue = string.Join(",", elements);
-
-
-                // File.AppendAllText("D:\\myfil.txt", "dnhwadhjwiladhjklwa");
-                //var mytext = File.ReadAllText("D:\\myfil.txt");
-
-                List<Record> records = new List<Record>();
-
-                if (!File.Exists(FilePath))
-                    File.WriteAllText(FilePath, "");
-
-                var fileValue = File.ReadAllText(FilePath);
-                if (fileValue != "")
-                    records = JsonSerializer.Deserialize<List<Record>>(fileValue);
-
-
-                var mupltiples = records.Where(r => r.Url == url).ToList();
-                var single = records.SingleOrDefault(r => r.Url == url);
-
+                var single = _records.SingleOrDefault(r => r.Url == url);
                 //not present
                 if (single == null)
                 {
                     var record = new Record
                     {
+                        Address = address,
                         Count = 1,
                         Url = url
                     };
 
-                    records.Add(record);
+                    _records.Add(record);
                 }
                 else
                 {
                     single.Count++;
                 }
 
-                var top = records.OrderByDescending(r => r.Count).ToList();
-
-
-                var text = JsonSerializer.Serialize(records);
-
-                File.WriteAllText(FilePath, text);
-
-                Properties.Settings.Default.LastRequest = settingValue;
-                Properties.Settings.Default.Save();
-
-
+                SetTopRequested();
+                SaveRecords();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //System.Windows.Forms.MessageBox.Show("Test", "OOps");
-                //throw;
+                MessageBox.Show($"Error\r\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //récupérer recherche la plus faite
-
-            //remplir les champs de From 2 ou 3 avec ta propriété
-
-            Form3 most = new Form3();
-            most.Show();
-        }
         public class Record
         {
             public string Url { get; set; }
             public int Count { get; set; }
+            public string Address { get; set; }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Last.Items.Clear();
         }
     }
 }

@@ -19,13 +19,11 @@ namespace Upswing
 
         private void buttonEnter_Click(object sender, EventArgs e)
         {
-            if ((textBox1.Text == "Admin") && (textBox2.Text == "mdp"))
+            if ((textBox1.Text == "Admin") && (textBox2.Text == "M0t2p@55e!"))
             {
                 UpswingApp app = new UpswingApp();
                 app.Show();
-
                 this.Hide();
-                
             }
         }
     }

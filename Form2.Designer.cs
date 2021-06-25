@@ -40,9 +40,10 @@ namespace Upswing
             this.label3 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // splitter1
@@ -87,7 +88,8 @@ namespace Upswing
             // Last
             // 
             this.Last.FormattingEnabled = true;
-            this.Last.Location = new System.Drawing.Point(12, 343);
+            this.Last.HorizontalScrollbar = true;
+            this.Last.Location = new System.Drawing.Point(8, 319);
             this.Last.Name = "Last";
             this.Last.Size = new System.Drawing.Size(142, 134);
             this.Last.TabIndex = 4;
@@ -149,17 +151,6 @@ namespace Upswing
             this.label4.TabIndex = 7;
             this.label4.Text = "Zip";
             // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Audiowide", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(12, 224);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(142, 43);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Most Requested";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // webBrowser1
             // 
             this.webBrowser1.Location = new System.Drawing.Point(160, 12);
@@ -176,11 +167,34 @@ namespace Upswing
             this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
             this.label5.Font = new System.Drawing.Font("Audiowide", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(19, 323);
+            this.label5.Location = new System.Drawing.Point(18, 299);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(113, 17);
             this.label5.TabIndex = 14;
             this.label5.Text = "Last Requests";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Audiowide", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(6, 234);
+            this.label6.MaximumSize = new System.Drawing.Size(120, 300);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 14);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "label6";
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Audiowide", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(3, 459);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(154, 23);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "Clear Last Requested";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // UpswingApp
             // 
@@ -188,9 +202,10 @@ namespace Upswing
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             this.ClientSize = new System.Drawing.Size(797, 494);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.webBrowser1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox4);
@@ -226,8 +241,9 @@ namespace Upswing
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -56,7 +56,7 @@ namespace Upswing
             GeocodingResponse geocode = geocodingEngine.Query(geocodeRequest);
 
             var firstResult = geocode.Results.First();
-      //html pour l'utilisation de l'API 
+      //html to use the Google API 
             return $@"
 <!DOCTYPE html>
 <html>
